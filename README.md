@@ -150,7 +150,10 @@ QuantidadeDoada_kg
 -- ======================
 -- Modelo Físico (MySQL).
 -- ======================
-+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+<img width="800" height="477" alt="Diagrama - Horta VerdeVive" src="https://github.com/user-attachments/assets/76a2a92e-cdd3-48a4-8130-738cadea8c52" />
+
+
 -- ==========================
 -- Criação do Banco de Dados.
 -- ==========================
