@@ -242,111 +242,169 @@ CREATE TABLE Item_Doacao (
     FK (FK_IdDoacao),
     FK (FK_IdColheita)
 );
-________________________________________
-Consultas SQL (DML)
-1. Liste todos os voluntários cadastrados.
-SQL
-SELECT NomeCompleto, Funcao 
-FROM Voluntario;
 
-2. Mostre as plantas cultivadas.
-SQL
-SELECT NomePopular, TempoMedioCiclo_dias, NomeCientifico 
-FROM Especie;
+-- ====================
+-- Consultas SQL (DML).
+-- ====================
 
-3. Mostre as plantas cultivadas em cada canteiro.
-SQL
+-- =======================================
+-- Liste todos os voluntários cadastrados.
+-- =======================================
+
+SELECT
+    NomeCompleto, Funcao 
+FROM
+    Voluntario;
+
+-- ==============================
+-- Mostre as plantas cultivadas.
+-- ==============================
+
+SELECT 
+    NomePopular, 
+    TempoMedioCiclo_dias,
+    NomeCientifico 
+FROM
+    Especie;
+
+-- ==============================================
+-- Mostre as plantas cultivadas em cada canteiro.
+-- ==============================================
+
 SELECT 
     c.Localizacao AS Canteiro,
     e.NomePopular AS Planta,
     cu.DataPlantio
-FROM Cultivo AS cu
-JOIN Canteiro AS c ON cu.FK_IdCanteiro = c.IdCanteiro
-JOIN Especie AS e ON cu.FK_IdEspecie = e.IdEspecie;
+FROM 
+    Cultivo AS cu
+JOIN 
+    Canteiro AS c ON cu.FK_IdCanteiro = c.IdCanteiro
+JOIN 
+    Especie AS e ON cu.FK_IdEspecie = e.IdEspecie;
 
-4. Exiba os nomes dos voluntários e as plantas que eles cultivam.
-SQL
-SELECT DISTINCT
+-- ==============================================================
+-- Exiba os nomes dos voluntários e as plantas que eles cultivam.
+-- ==============================================================
+
+SELECT 
     v.NomeCompleto AS Voluntario,
     e.NomePopular AS Planta
-FROM Cultivo AS cu
-JOIN Voluntario AS v ON cu.FK_IdVoluntario = v.IdVoluntario
-JOIN Especie AS e ON cu.FK_IdEspecie = e.IdEspecie
+FROM 
+    Cultivo AS cu
+JOIN 
+    Voluntario AS v ON cu.FK_IdVoluntario = v.IdVoluntario
+JOIN 
+    Especie AS e ON cu.FK_IdEspecie = e.IdEspecie
 ORDER BY v.NomeCompleto;
 
-5. Liste todas as colheitas realizadas.
-SQL
+-- ====================================
+6. Liste todas as colheitas realizadas.
+-- ====================================
+
 SELECT 
     co.DataColheita,
     ca.Localizacao AS Canteiro,
     co.QuantidadeColhida_kg
-FROM Colheita AS co
-JOIN Cultivo AS cu ON co.FK_IdCultivo = cu.IdCultivo
+FROM
+    Colheita AS co
+JOIN
+    Cultivo AS cu ON co.FK_IdCultivo = cu.IdCultivo
 JOIN Canteiro AS ca ON cu.FK_IdCanteiro = ca.IdCanteiro;
 
-6. Mostra as instituições que receberam doações.
-SQL
+-- =============================================
+8. Mostra as instituições que receberam doações.
+-- =============================================
+
 SELECT 
     i.Nome AS Instituicao,
     d.DataDoacao,
     e.NomePopular AS Produto,
     id.QuantidadeDoada_kg
-FROM Item_Doacao AS id
-JOIN Doacao AS d ON id.FK_IdDoacao = d.IdDoacao
-JOIN Instituicao AS i ON d.FK_IdInstituicao = i.IdInstituicao
-JOIN Colheita AS co ON id.FK_IdColheita = co.IdColheita
-JOIN Cultivo AS cu ON co.FK_IdCultivo = cu.IdCultivo
-JOIN Especie AS e ON cu.FK_IdEspecie = e.IdEspecie;
+FROM 
+    Item_Doacao AS id
+JOIN 
+    Doacao AS d ON id.FK_IdDoacao = d.IdDoacao
+JOIN 
+    Instituicao AS i ON d.FK_IdInstituicao = i.IdInstituicao
+JOIN 
+    Colheita AS co ON id.FK_IdColheita = co.IdColheita
+JOIN 
+    Cultivo AS cu ON co.FK_IdCultivo = cu.IdCultivo
+JOIN 
+    Especie AS e ON cu.FK_IdEspecie = e.IdEspecie;
 
-7. Liste o total de quilos doados por instituição usando GROUP BY.
-SQL
+-- ===============================================================
+9. Liste o total de quilos doados por instituição usando GROUP BY.
+-- ===============================================================
+
 SELECT 
     i.Nome AS Instituicao,
     SUM(id.QuantidadeDoada_kg) AS Total_Doado_kg
-FROM Item_Doacao AS id
-JOIN Doacao AS d ON id.FK_IdDoacao = d.IdDoacao
-JOIN Instituicao AS i ON d.FK_IdInstituicao = i.IdInstituicao
+FROM 
+    Item_Doacao AS id
+JOIN 
+    Doacao AS d ON id.FK_IdDoacao = d.IdDoacao
+JOIN    
+    Instituicao AS i ON d.FK_IdInstituicao = i.IdInstituicao
 GROUP BY i.Nome
 ORDER BY Total_Doado_kg DESC;
 
-8. Mostre os canteiros que ainda não tiveram colheitas usando LEFT JOIN.
-SQL
+-- ======================================================================
+10. Mostre os canteiros que ainda não tiveram colheitas usando LEFT JOIN.
+-- ======================================================================
+
 SELECT 
     c.ID_Canteiro,
     c.Localizacao
-FROM Canteiro AS c
-LEFT JOIN Cultivo AS cu ON c.IdCanteiro = cu.FK_IdCanteiro
-LEFT JOIN Colheita AS co ON cu.IdCultivo = co.FK_IdCultivo
-WHERE co.IdColheita IS NULL
+FROM 
+    Canteiro AS c
+LEFT JOIN 
+    Cultivo AS cu ON c.IdCanteiro = cu.FK_IdCanteiro
+LEFT JOIN 
+    Colheita AS co ON cu.IdCultivo = co.FK_IdCultivo
+WHERE 
+    co.IdColheita IS NULL
 GROUP BY c.IdCanteiro, c.Localizacao;
--- (Nos nossos dados de exemplo, o Canteiro 3 apareceria aqui)
 
-9. Exiba o voluntário que realizou o maior número de cultivos usando COUNT e ORDER BY.
-SQL
+-- ====================================================================================
+11. Exiba o voluntário que realizou o maior número de cultivos usando COUNT e ORDER BY.
+-- ====================================================================================
+
 SELECT 
     v.NomeCompleto,
     COUNT(cu.IdCultivo) AS Total_Cultivos
-FROM Voluntario AS v
-JOIN Cultivo AS cu ON v.IdVoluntario = cu.FK_IdVoluntario
+FROM 
+    Voluntario AS v
+JOIN 
+    Cultivo AS cu ON v.IdVoluntario = cu.FK_IdVoluntario
 GROUP BY v.IdVoluntario
 ORDER BY Total_Cultivos DESC
 LIMIT 1;
 
-10. Mostra as plantas que ainda não foram colhidas.
-SQL
-SELECT DISTINCT
-    e.NomePopular
-FROM Especie AS e
-JOIN Cultivo AS cu ON e.IdEspecie = cu.FK_IdEspecie
+-- ================================================
+12. Mostra as plantas que ainda não foram colhidas.
+-- ================================================
 
-11. Liste as doações realizadas em setembro de 2025.
-SQL
+SELECT 
+    e.NomePopular
+FROM 
+    Especie AS e
+JOIN 
+    Cultivo AS cu ON e.IdEspecie = cu.FK_IdEspecie
+
+-- =================================================
+13. Liste as doações realizadas em setembro de 2025.
+-- =================================================
+
 SELECT 
     i.Nome AS Instituicao,
     d.DataDoacao
-FROM Doacao AS d
-JOIN Instituicao AS i ON d.FK_IdInstituicao = i.IdInstituicao
-WHERE MONTH(d.DataDoacao) = 9 AND YEAR(d.DataDoacao) = 2025;
+FROM 
+    Doacao AS d
+JOIN 
+    Instituicao AS i ON d.FK_IdInstituicao = i.IdInstituicao
+WHERE 
+MONTH(d.DataDoacao) = 9 AND YEAR(d.DataDoacao) = 2025;
 
 
 # Horta_Comuitaria_Modulo_03
