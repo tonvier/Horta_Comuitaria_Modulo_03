@@ -131,18 +131,26 @@ o	Descrição: Uma doação pode conter produtos de várias colheitas. Uma colhe
 •	DataColheita
 •	QuantidadeColhida_kg
 •	FK_IdVoluntario (FK referencia Voluntario)
-•	FK_IdCultivo (FK referencia Cultivo)
-Tabela: Doacao
+•	FK_IdCultivo (FK referencia Cultivo) 
+
+-- ============
+-- Tabela: Doacao.
+-- ============
 •	IdDoacao (PK)
 •	DataDoacao
 •	FK_IdInstituicao (FK referencia Instituicao)
-Tabela: Item_Doacao (Tabela Associativa para Doacao N:N Colheita)
+
+-- ===============================================================
+-- Tabela: Item_Doacao (Tabela Associativa para Doacao N:N Colheita).
+-- ===============================================================
 •	FK_IdDoacao (PK, FK referencia Doacao)
 •	FK_IdColheita (PK, FK referencia Colheita)
 •	QuantidadeDoada_kg
-________________________________________
-Modelo Físico (MySQL)
-SQL
+
+-- =======================
+-- Modelo Físico (MySQL).
+-- ======================
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 -- ======================
 -- Criação do Banco de Dados
 -- ======================
