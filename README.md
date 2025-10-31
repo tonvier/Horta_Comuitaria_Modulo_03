@@ -3,9 +3,9 @@
 -- ======================
 
 -- Voluntario
-o	IdVoluntario (PK)
-o	NomeCompleto
-o	Funcao (Ex: Coordenador, Cuidador)
+IdVoluntario (PK)
+NomeCompleto
+Funcao (Ex: Coordenador, Cuidador)
 
 -- Canteiro
 IdCanteiro (PK)
@@ -39,9 +39,9 @@ QuantidadeColhida_kg
 IdDoacao (PK)
 DataDoacao
 
--- ===================
+-- ======================
 -- Chaves Primárias (PK).
--- ===================
+-- ======================
 
 Voluntario: IdVoluntario
 Canteiro: IdCanteiro
@@ -54,113 +54,113 @@ Doacao: IdDoacao
 -- =================================
 -- Relacionamentos e Cardinalidades.
 -- =================================
-•	Voluntário (N) --- (N) Canteiro
-o	Descrição: Um voluntário pode cuidar de muitos canteiros, e um canteiro pode ser cuidado por muitos voluntários.
+Voluntário (N) --- (N) Canteiro
+Descrição: Um voluntário pode cuidar de muitos canteiros, e um canteiro pode ser cuidado por muitos voluntários.
 
-•	Voluntário (1) --- (N) Cultivo
-o	Descrição: Um voluntário pode realizar muitos cultivos. Cada cultivo é feito por um voluntário.
+Voluntário (1) --- (N) Cultivo
+Descrição: Um voluntário pode realizar muitos cultivos. Cada cultivo é feito por um voluntário.
 
-•	Voluntário (1) --- (N) Colheita
-o	Descrição: Um voluntário pode realizar muitas colheitas. Cada colheita é feita por um voluntário.
+Voluntário (1) --- (N) Colheita
+Descrição: Um voluntário pode realizar muitas colheitas. Cada colheita é feita por um voluntário.
 
-•	Canteiro (1) --- (N) Cultivo
-o	Descrição: Um canteiro pode ter muitos cultivos. Cada cultivo ocorre em um canteiro.
+Canteiro (1) --- (N) Cultivo
+Descrição: Um canteiro pode ter muitos cultivos. Cada cultivo ocorre em um canteiro.
 
-•	Espécie (1) --- (1) Cultivo
-o	Descrição: Uma espécie pode ser cultivada muitas vezes. Cada cultivo é de uma espécie.
+Espécie (1) --- (1) Cultivo
+Descrição: Uma espécie pode ser cultivada muitas vezes. Cada cultivo é de uma espécie.
 
-•	Cultivo (1) --- (N) Colheita
-o	Descrição: Um cultivo pode gerar muitas colheitas. Cada colheita vem de um cultivo.
+Cultivo (1) --- (N) Colheita
+Descrição: Um cultivo pode gerar muitas colheitas. Cada colheita vem de um cultivo.
 
-•	Instituicao (1) --- (N) Doacao
-o	Descrição: Uma instituição pode receber muitas doações. Cada doação vai para uma instituição.
+Instituicao (1) --- (N) Doacao
+Descrição: Uma instituição pode receber muitas doações. Cada doação vai para uma instituição.
 
-•	Doacao (N) --- (N) Colheita
-o	Descrição: Uma doação pode conter produtos de várias colheitas. Uma colheita pode ser dividida em várias doações.
+Doacao (N) --- (N) Colheita
+Descrição: Uma doação pode conter produtos de várias colheitas. Uma colheita pode ser dividida em várias doações.
 
 -- ===================
 -- Tabela: Voluntario.
 -- ===================
-•	IdVoluntario (PK - CPF)
-•	NomeCompleto
+IdVoluntario (PK - CPF)
+NomeCompleto
 
--- ===================
+-- =================
 -- Tabela: Canteiro.
--- ===================
-•	IdCanteiro (PK - Ex.: Can01)
-•	Localizacao (Ex.: Can01 - Norte Superior)
-•	Descricao
+-- =================
+IdCanteiro (PK - Ex.: Can01)
+Localizacao (Ex.: Can01 - Norte Superior)
+Descricao
 
--- =================
+-- ================
 -- Tabela: Especie.
--- =================
-•	IdEspecie (PK)
-•	NomePopular
-•	NomeCientifico
-•	TempoDias
+-- ================
+IdEspecie (PK)
+NomePopular
+NomeCientifico
+TempoDias
 
 -- ====================
 -- Tabela: Instituicao.
--- ===================
-•	IdInstituicao (PK - Ex.: CNPJ)
-•	Nome
-•	Responsavel
+-- ====================
+IdInstituicao (PK - Ex.: CNPJ)
+Nome
+Responsavel
 
 -- ===========================================================================
 -- Tabela: Cuidado_Canteiro (Tabela Associativa para Voluntario N:N Canteiro).
 -- ===========================================================================
-•	FK_IdVoluntario (PK, FK referencia Voluntario)
-•	FK_IdCanteiro (PK, FK referencia Canteiro)
-•	DataInicioCuidado
+FK_IdVoluntario (PK, FK referencia Voluntario)
+FK_IdCanteiro (PK, FK referencia Canteiro)
+DataInicioCuidado
 
 -- ================
 -- Tabela: Cultivo.
 -- ================
-•	IdCultivo (PK)
-•	DataPlantio
-•	QuantidadePlantada
-•	Status
-•	FK_IdVoluntario (FK referencia Voluntario)
-•	FK_IdCanteiro (FK referencia Canteiro)
-•	FK_IdEspecie (FK referencia Especie)
+IdCultivo (PK)
+DataPlantio
+QuantidadePlantada
+Status
+FK_IdVoluntario (FK referencia Voluntario)
+FK_IdCanteiro (FK referencia Canteiro)
+FK_IdEspecie (FK referencia Especie)
 
 -- =================
 -- Tabela: Colheita.
 -- =================
-•	IdColheita (PK)
-•	DataColheita
-•	QuantidadeColhida_kg
-•	FK_IdVoluntario (FK referencia Voluntario)
-•	FK_IdCultivo (FK referencia Cultivo) 
+IdColheita (PK)
+DataColheita
+QuantidadeColhida_kg
+FK_IdVoluntario (FK referencia Voluntario)
+FK_IdCultivo (FK referencia Cultivo) 
 
--- ============
+-- ===============
 -- Tabela: Doacao.
--- ============
-•	IdDoacao (PK)
-•	DataDoacao
-•	FK_IdInstituicao (FK referencia Instituicao)
+-- ===============
+IdDoacao (PK)
+DataDoacao
+FK_IdInstituicao (FK referencia Instituicao)
 
--- ===============================================================
+-- ==================================================================
 -- Tabela: Item_Doacao (Tabela Associativa para Doacao N:N Colheita).
--- ===============================================================
-•	FK_IdDoacao (PK, FK referencia Doacao)
-•	FK_IdColheita (PK, FK referencia Colheita)
-•	QuantidadeDoada_kg
+-- ==================================================================
+FK_IdDoacao (PK, FK referencia Doacao)
+FK_IdColheita (PK, FK referencia Colheita)
+QuantidadeDoada_kg
 
--- =======================
+-- ======================
 -- Modelo Físico (MySQL).
 -- ======================
 +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
--- ======================
--- Criação do Banco de Dados
--- ======================
+-- ==========================
+-- Criação do Banco de Dados.
+-- ==========================
 
 CREATE DATABASE VerdeViva;
 USE VerdeViva;
 
--- ==============
--- Tabelas principais
--- ==============
+-- ===================
+-- Tabelas principais.
+-- ===================
 
 CREATE TABLE Voluntario (
     IdVoluntario INT (PK),
@@ -190,9 +190,9 @@ CREATE TABLE Instituicao (
     Telefone VARCHAR
 );
 
--- ==============
--- Tabela Associativa
--- ==============
+-- ===================
+-- Tabela Associativa.
+-- ===================
 
 CREATE TABLE Cuidado_Canteiro (
     FK_IdVoluntario INT,
@@ -203,9 +203,9 @@ CREATE TABLE Cuidado_Canteiro (
     FK (FK_IdCanteiro)
 );
 
--- ========================
--- Tabelas de Eventos (com FKs)
--- ========================
+-- =============================
+-- Tabelas de Eventos (com FKs).
+-- =============================
 
 CREATE TABLE Cultivo (
     IdCultivo INT (PK),
@@ -238,9 +238,9 @@ CREATE TABLE Doacao (
     FK (FK_IdInstituicao)
 );
 
--- ===============
--- Tabela Associativa
--- ===============
+-- ===================
+-- Tabela Associativa.
+-- ===================
 
 CREATE TABLE Item_Doacao (
     FK_IdDoacao INT,
@@ -306,7 +306,7 @@ JOIN
 ORDER BY v.NomeCompleto;
 
 -- ====================================
-6. Liste todas as colheitas realizadas.
+-- Liste todas as colheitas realizadas.
 -- ====================================
 
 SELECT 
@@ -320,7 +320,7 @@ JOIN
 JOIN Canteiro AS ca ON cu.FK_IdCanteiro = ca.IdCanteiro;
 
 -- =============================================
-8. Mostra as instituições que receberam doações.
+-- Mostra as instituições que receberam doações.
 -- =============================================
 
 SELECT 
@@ -342,7 +342,7 @@ JOIN
     Especie AS e ON cu.FK_IdEspecie = e.IdEspecie;
 
 -- ===============================================================
-9. Liste o total de quilos doados por instituição usando GROUP BY.
+-- Liste o total de quilos doados por instituição usando GROUP BY.
 -- ===============================================================
 
 SELECT 
@@ -358,7 +358,7 @@ GROUP BY i.Nome
 ORDER BY Total_Doado_kg DESC;
 
 -- ======================================================================
-10. Mostre os canteiros que ainda não tiveram colheitas usando LEFT JOIN.
+-- Mostre os canteiros que ainda não tiveram colheitas usando LEFT JOIN.
 -- ======================================================================
 
 SELECT 
@@ -374,9 +374,9 @@ WHERE
     co.IdColheita IS NULL
 GROUP BY c.IdCanteiro, c.Localizacao;
 
--- ====================================================================================
-11. Exiba o voluntário que realizou o maior número de cultivos usando COUNT e ORDER BY.
--- ====================================================================================
+-- ============================================================================
+-- Voluntário que realizou o maior número de cultivos usando COUNT e ORDER BY.
+-- ============================================================================
 
 SELECT 
     v.NomeCompleto,
@@ -390,7 +390,7 @@ ORDER BY Total_Cultivos DESC
 LIMIT 1;
 
 -- ================================================
-12. Mostra as plantas que ainda não foram colhidas.
+-- Mostra as plantas que ainda não foram colhidas.
 -- ================================================
 
 SELECT 
@@ -401,7 +401,7 @@ JOIN
     Cultivo AS cu ON e.IdEspecie = cu.FK_IdEspecie
 
 -- =================================================
-13. Liste as doações realizadas em setembro de 2025.
+-- Liste as doações realizadas em setembro de 2025.
 -- =================================================
 
 SELECT 
