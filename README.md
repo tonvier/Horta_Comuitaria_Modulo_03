@@ -5,7 +5,7 @@
 -- Voluntario
 IdVoluntario (PK)
 NomeCompleto
-Funcao (Ex: Coordenador, Cuidador)
+Funcao (Ex: Adm, Cuidador)
 
 -- Canteiro
 IdCanteiro (PK)
@@ -83,6 +83,7 @@ Descrição: Uma doação pode conter produtos de várias colheitas. Uma colheit
 -- ===================
 IdVoluntario (PK - CPF)
 NomeCompleto
+email
 
 -- =================
 -- Tabela: Canteiro.
@@ -105,6 +106,7 @@ TempoDias
 IdInstituicao (PK - Ex.: CNPJ)
 Nome
 Responsavel
+email
 
 -- ===========================================================================
 -- Tabela: Cuidado_Canteiro (Tabela Associativa para Voluntario N:N Canteiro).
@@ -149,6 +151,7 @@ QuantidadeDoada_kg
 
 -- ======================
 -- Modelo Físico (MySQL).
+-- Diagrama.
 -- ======================
 
 <img width="800" height="477" alt="Diagrama - Horta VerdeVive" src="https://github.com/user-attachments/assets/76a2a92e-cdd3-48a4-8130-738cadea8c52" />
@@ -158,12 +161,8 @@ QuantidadeDoada_kg
 -- Criação do Banco de Dados.
 -- ==========================
 
-CREATE DATABASE VerdeViva;
+CREATE DATABASE IF NOT EXISTS VerdeViva;
 USE VerdeViva;
-
--- ===================
--- Tabelas principais.
--- ===================
 
 CREATE TABLE Voluntario (
     IdVoluntario INT (PK),
@@ -253,10 +252,6 @@ CREATE TABLE Item_Doacao (
     FK (FK_IdDoacao),
     FK (FK_IdColheita)
 );
-
--- ====================
--- Consultas SQL (DML).
--- ====================
 
 -- =======================================
 -- Liste todos os voluntários cadastrados.
